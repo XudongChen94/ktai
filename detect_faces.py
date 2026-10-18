@@ -4,7 +4,7 @@ import math
 import cv2
 import numpy as np
 
-model_path = 'models/blaze_face_short_range.tflite'
+model_path = 'models/blaze_face_full_range.tflite'
 IMAGE_FILE = '/Users/o410roo/Master_Ai/KTAI/stranger-faces/frames/raw/Screen Recording 2026-10-02 at 18.56.28_t0270.29s.jpg'
 
 MARGIN = 10  # pixels
@@ -16,6 +16,7 @@ TEXT_COLOR = (255, 0, 0)  # red
 BaseOptions = mp.tasks.BaseOptions
 FaceDetector = mp.tasks.vision.FaceDetector
 FaceDetectorOptions = mp.tasks.vision.FaceDetectorOptions
+FaceDetection = mp.solutions.face_detection.FaceDetection
 VisionRunningMode = mp.tasks.vision.RunningMode
 
 def _normalized_to_pixel_coordinates(
@@ -77,24 +78,44 @@ def visualize(image, detection_result) -> np.ndarray:
 
 
 def main():
-    options = FaceDetectorOptions(
-        base_options=BaseOptions(model_asset_path=model_path),
-        running_mode=VisionRunningMode.IMAGE)
-    with FaceDetector.create_from_options(options) as detector:
-        mp_image = mp.Image.create_from_file(IMAGE_FILE)
-        detection_result = detector.detect(mp_image)
 
-        image_copy = np.copy(mp_image.numpy_view())
-        annotated_image = visualize(image_copy, detection_result)
-        rgb_annotated_image = cv2.cvtColor(annotated_image, cv2.COLOR_BGR2RGB)
-        cv2.imshow("Recognize", rgb_annotated_image)
+    with FaceDetection(
+        model_selection=1,
+        min_detection_confidence=0.5
+    ) as detector:
+        image = cv2.imread(IMAGE_FILE)
+        rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        detection_result = detector.process(rgb_image)
 
-        print(len(detection_result.detections))
-        print(detection_result)
+        # Kopieer de afbeelding en teken de kaders en punten hierop
+        annotated_image = image.copy()
 
+        for detection in detection_result.detections or []:
+            mp.solutions.drawing_utils.draw_detection(
+                annotated_image, detection
+            )
+            # Get box coordinates
+            bbox = detection.location_data.relative_bounding_box
+            height, width = annotated_image.shape[:2]
+            x = int(bbox.xmin * width)
+            y = int(bbox.ymin * height)
+
+
+            confidence = detection.score[0]
+            # Place confidence score to the box
+            cv2.putText(
+                annotated_image,
+                f"{confidence:.0%}",
+                (max(0, x), max(20, y - 10)),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                0.6,
+                (0, 255, 0),
+                2,
+            )
+
+        cv2.imshow("Recognize", annotated_image)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-
 
 if __name__ == "__main__":
     main()
