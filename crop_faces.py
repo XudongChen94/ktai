@@ -5,8 +5,8 @@ import cv2
 
 FaceDetection = mp.solutions.face_detection.FaceDetection
 
-input_folder = "dataset/train/mike"
-output_folder = "frames/faces/mike/train"
+input_folder = "dataset/test/dustin"
+output_folder = "frames/faces/dustin/test"
 
 margin = 0.2
 

@@ -53,7 +53,7 @@ def load_reference_embedding():
     reference_embedding = np.mean(embeddings, axis=0)
     return reference_embedding
 
-
+# Albert: volgens mij hoeft dit niet, en geeft FaceNet zelf al een genormaliseerde vector terug.
 def calculate_distance(embedding_1, embedding_2):
     """
     Berekent de genormaliseerde Euclidische afstand tussen twee embeddings.
