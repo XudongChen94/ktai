@@ -14,10 +14,17 @@ INPUT_SIZE = 160  # FaceNet wil 160 x 160 pixels
 
 
 def create_input(image_path):
-    """Leest een gezichtsplaatje en maakt er een tensor van voor FaceNet."""
+    """Leest een pad en geeft een afbeelding terug."""
     image_bgr = cv2.imread(image_path)
+    
     if image_bgr is None:
         raise FileNotFoundError(f"Could not read image: {image_path}")
+   
+    return image_bgr
+
+
+def create_input_from_image(image_bgr):
+    """Maakt van een ingelezen OpenCV-afbeelding een tensor voor FaceNet."""
 
     image_rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
     image_resize = cv2.resize(image_rgb, (INPUT_SIZE,INPUT_SIZE))
@@ -38,7 +45,8 @@ def main():
     file_names = []
 
     for image_path in image_paths:
-        image_tensor = create_input(image_path)
+        image_bgr = create_input(image_path)
+        image_tensor = create_input_from_image(image_bgr)
 
         with torch.no_grad():
             batch = image_tensor.unsqueeze(0)
