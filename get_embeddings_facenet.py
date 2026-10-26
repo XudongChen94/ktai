@@ -5,7 +5,7 @@ import numpy as np
 import torch
 from facenet_pytorch import InceptionResnetV1
 
-PERSON = "elf"
+PERSON = "dustin"
 
 INPUT_FOLDER = f"frames/faces/{PERSON}/train"
 OUTPUT_FOLDER = f"embeddings/facenet/{PERSON}_facenet.npy"
@@ -22,7 +22,6 @@ def create_input(image_path):
    
     return image_bgr
 
-
 def create_input_from_image(image_bgr):
     """Maakt van een ingelezen OpenCV-afbeelding een tensor voor FaceNet."""
 
@@ -34,6 +33,16 @@ def create_input_from_image(image_bgr):
 
     return image_tensor
 
+def get_embedding(image_bgr, model):
+    """Maakt een FaceNet-embedding van één OpenCV-afbeelding."""
+    image_tensor = create_input_from_image(image_bgr)
+
+    with torch.no_grad():
+        batch = image_tensor.unsqueeze(0)
+        output = model(batch)
+        embedding = output[0].numpy()
+
+    return embedding
 
 def main():
     os.makedirs("embeddings", exist_ok=True)
@@ -46,13 +55,7 @@ def main():
 
     for image_path in image_paths:
         image_bgr = create_input(image_path)
-        image_tensor = create_input_from_image(image_bgr)
-
-        with torch.no_grad():
-            batch = image_tensor.unsqueeze(0)
-            output = model(batch)
-            embedding = output[0].numpy()
-
+        embedding = get_embedding(image_bgr, model)
         embeddings.append(embedding)
         file_names.append(os.path.basename(image_path))
 
@@ -61,8 +64,6 @@ def main():
 
     with open(NAMES_TXT, "w") as names_file:
         names_file.write("\n".join(file_names))
-
-
 
 if __name__ == "__main__":
     main()

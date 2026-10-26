@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 
+TEST_PERSON = "dustin"
 PEOPLE = ["dustin", "elf", "mike"]
 EMBEDDINGS_FOLDER = "embeddings/facenet"
 
@@ -42,23 +43,18 @@ def main():
             print(
                 f"{first_person} - {second_person}: mean {mean:.2f}  min {smallest:.2f}  max {largest:.2f}")
 
-    dustin_test = np.load(f"{EMBEDDINGS_FOLDER}/dustin_facenet_test.npy")
+    test_embeddings = np.load(f"{EMBEDDINGS_FOLDER}/{TEST_PERSON}_facenet_test.npy")
+    true_index = PEOPLE.index(TEST_PERSON)
     for person in PEOPLE:
-        distances = distance_matrix(dustin_test, embeddings[person])
+        distances = distance_matrix(test_embeddings, embeddings[person])
         mean, smallest, largest = summarize(distances, same_group=False)
         print(
-            f"dustin test - {person} train: mean {mean:.2f}  min {smallest:.2f}  max {largest:.2f}")
-
-    for person in PEOPLE:
-        distances = distance_matrix(dustin_test, embeddings[person])
-        closest_per_photo = distances.min(axis=1)
-        print(person, closest_per_photo.shape)
-        print(np.round(closest_per_photo, 2))
+            f"{TEST_PERSON} test - {person} train: mean {mean:.2f}  min {smallest:.2f}  max {largest:.2f}")
 
     closest_per_person = {}
 
     for person in PEOPLE:
-        distances = distance_matrix(dustin_test, embeddings[person])
+        distances = distance_matrix(test_embeddings, embeddings[person])
         closest_per_person[person] = distances.min(axis=1)
 
     all_distances = np.stack([
@@ -67,15 +63,16 @@ def main():
         closest_per_person["mike"],
     ])# vorm (3, 16)
     predicted_index = np.argmin(all_distances, axis=0)
-    correct = predicted_index == 0  # index 0 =  Dustin
+    correct = predicted_index == true_index
     print(correct.sum(), "van", len(correct))
 
     photo_names = open(
-        f"{EMBEDDINGS_FOLDER}/dustin_facenet_test_names.txt").read().splitlines()
+        f"{EMBEDDINGS_FOLDER}/{TEST_PERSON}_facenet_test_names.txt").read().splitlines()
 
     table = pd.DataFrame(all_distances.T, columns=PEOPLE, index=photo_names)
     table["predicted"] = [PEOPLE[i] for i in predicted_index]
     print(table.round(2))
+    table.round(2).to_csv(f"results/facenet/{TEST_PERSON}_test_predictions.csv")
 
 if __name__ == "__main__":
     main()
