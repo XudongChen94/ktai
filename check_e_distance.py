@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 PEOPLE = ["dustin", "elf", "mike"]
 EMBEDDINGS_FOLDER = "embeddings/facenet"
@@ -54,7 +55,27 @@ def main():
         print(person, closest_per_photo.shape)
         print(np.round(closest_per_photo, 2))
 
+    closest_per_person = {}
 
+    for person in PEOPLE:
+        distances = distance_matrix(dustin_test, embeddings[person])
+        closest_per_person[person] = distances.min(axis=1)
+
+    all_distances = np.stack([
+        closest_per_person["dustin"],
+        closest_per_person["elf"],
+        closest_per_person["mike"],
+    ])# vorm (3, 16)
+    predicted_index = np.argmin(all_distances, axis=0)
+    correct = predicted_index == 0  # index 0 =  Dustin
+    print(correct.sum(), "van", len(correct))
+
+    photo_names = open(
+        f"{EMBEDDINGS_FOLDER}/dustin_facenet_test_names.txt").read().splitlines()
+
+    table = pd.DataFrame(all_distances.T, columns=PEOPLE, index=photo_names)
+    table["predicted"] = [PEOPLE[i] for i in predicted_index]
+    print(table.round(2))
 
 if __name__ == "__main__":
     main()
