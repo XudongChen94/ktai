@@ -99,7 +99,10 @@ def predict_identity(distances, threshold):
 
 
 def test_thresholds(model, reference_embeddings, test_image, detector):
-
+    """
+    Test verschillende thresholds en doet een voorspelling op basis van de threshold.
+    """
+    
     faces = crop_faces.crop_faces(test_image, detector)
 
     if not faces:
