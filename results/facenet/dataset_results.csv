@@ -1,0 +1,22 @@
+image,face,person,threshold,dustin,elf,mike,prediction
+mike (1).jpeg,1,mike,0.9,1.3521881,1.1697407,0.7659031,mike
+mike (11).jpeg,1,mike,0.9,1.013278,1.3134102,1.4664832,Unknown
+mike (12).jpeg,1,mike,0.9,0.8729328,1.3792828,1.385457,dustin
+mike (12).jpeg,2,mike,0.9,1.4562956,1.5257365,0.795025,mike
+mike (2).jpeg,1,mike,0.9,1.4014294,1.2819544,1.4136882,Unknown
+mike (2).jpeg,2,mike,0.9,1.1941558,1.3883674,1.3392948,Unknown
+mike (3).jpeg,1,mike,0.9,1.4523638,1.3272245,0.93469095,Unknown
+mike (4).jpeg,1,mike,0.9,1.3906392,1.3370245,1.3297366,Unknown
+mike (4).jpeg,2,mike,0.9,1.2969439,1.2885643,0.661496,mike
+mike (4).jpeg,3,mike,0.9,1.2850795,1.3090686,1.3980707,Unknown
+mike (5).jpeg,1,mike,0.9,0.78988457,1.5045987,1.3793921,dustin
+mike (5).jpeg,2,mike,0.9,1.3319998,1.2954702,1.3752275,Unknown
+mike (5).jpeg,3,mike,0.9,1.3508781,1.5324408,0.82191545,mike
+mike (6).jpeg,1,mike,0.9,0.74863046,1.426851,1.3593705,dustin
+mike (7).jpeg,1,mike,0.9,1.4157457,0.7908626,1.23335,elf
+mike (7).jpeg,2,mike,0.9,1.3438358,1.3829464,0.6957411,mike
+mike (7).jpeg,3,mike,0.9,1.0987271,1.3567742,1.2691768,Unknown
+mike (7).jpeg,4,mike,0.9,1.2754929,1.2942258,0.999776,Unknown
+mike (8).jpeg,1,mike,0.9,1.2094125,1.3849752,1.2200776,Unknown
+mike (9).jpeg,1,mike,0.9,1.3097683,1.4528081,0.8566282,mike
+mike (9).jpeg,2,mike,0.9,1.3174964,1.3030747,1.3201017,Unknown
