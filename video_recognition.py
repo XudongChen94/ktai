@@ -10,7 +10,7 @@ from facenet_pytorch import InceptionResnetV1
 
 model = InceptionResnetV1(pretrained="vggface2").eval()   # één keer, bovenaan
 
-VIDEO_PATH = "video/dustin_compilation_720.mov"
+VIDEO_PATH = "video/dustin_elf_merged_720.mov"
 SAMPLES_PER_SECOND = 2
 THRESHOLD = 0.9
 results = []
