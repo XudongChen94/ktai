@@ -3,14 +3,12 @@ import os
 import csv
 import cv2
 import numpy as np
-import torch
 from facenet_pytorch import InceptionResnetV1
-import get_embeddings_facenet
 import crop_faces
+import face_recognition
 
 
 PEOPLE = ["dustin", "elf", "mike"]
-EMBEDDINGS_FOLDER = f"embeddings/facenet/"
 # Eén testafbeelding voor een vergelijking met de gemiddelde embedding van elf
 # TEST_IMAGE = f"dataset/test/{PERSON}/afstand v camera 3.png"
 # TEST_IMAGE = f"dataset/test/dustin/stills_dustin_stranger_things_001.jpg"
@@ -37,67 +35,6 @@ ANGLES = {
 }
 
 
-def get_embedding_from_image(image_bgr, model):
-    """
-    Maakt een FaceNet-embedding van een OpenCV-afbeelding.
-    """
-
-    image_tensor = get_embeddings_facenet.create_input_from_image(image_bgr)
-
-    with torch.no_grad():
-        batch = image_tensor.unsqueeze(0)
-        output = model(batch)
-        embedding = output[0].cpu().numpy()
-
-    return embedding
-
-def load_reference_embeddings():
-    """
-    Laadt alle embeddings uit alle .npy-bestanden in EMBEDDINGS_FOLDER.
-    Geeft een lijst met namen en een lijst met embeddings terug.
-    """
-    reference_embeddings = {}
-
-    for person in PEOPLE:
-        embeddings_file = os.path.join(EMBEDDINGS_FOLDER, f"{person}_facenet.npy")
-
-        if not os.path.exists(embeddings_file):
-            raise FileNotFoundError(f"Embeddings file not found: {embeddings_file}")
-
-        embeddings = np.load(embeddings_file)
-        if len(embeddings) == 0:
-            raise ValueError(f"No embeddings found in: {embeddings_file}")
-
-        mean_embedding = np.mean(embeddings, axis=0)
-        reference_embeddings[person] = mean_embedding / np.linalg.norm(mean_embedding)
-
-    return reference_embeddings
-
-
-# Albert: volgens mij hoeft dit niet, en geeft FaceNet zelf al een genormaliseerde vector terug.
-# Xudong: Klopt, FaceNet geeft inderdaad een genormaliseerde vector terug. Functie aangepast, zodat 
-# alleen de Euclidische afstand tussen genormaliseerde vectoren wordt berekend.
-def calculate_distance(embedding_1, embedding_2):
-    """
-    Berekent de genormaliseerde Euclidische afstand tussen twee embeddings.
-    """
-
-    return np.linalg.norm(embedding_1 - embedding_2)
-
-
-def predict_identity(distances, threshold):
-    """
-    Geeft de naam terug als precies één persoon onder de threshold zit,
-    anders "Unknown".
-    """
-    matches = [name for name, distance in distances.items() if distance < threshold]
-
-    if len(matches) == 1:
-        return matches[0]
-
-    return "Unknown"
-
-
 def test_thresholds(model, reference_embeddings, test_image, detector):
     """
     Test verschillende thresholds en doet een voorspelling op basis van de threshold.
@@ -114,9 +51,9 @@ def test_thresholds(model, reference_embeddings, test_image, detector):
     thresholds = np.arange(0.2, 2.0, 0.2)
 
     for face_index, test_face in enumerate(faces):
-        test_embedding = get_embedding_from_image(test_face, model)
+        test_embedding = face_recognition.get_embedding_from_image(test_face, model)
         distances = {
-            name: calculate_distance(reference_embeddings[name], test_embedding)
+            name: face_recognition. calculate_distance(reference_embeddings[name], test_embedding)
             for name in PEOPLE
         }
 
@@ -129,7 +66,7 @@ def test_thresholds(model, reference_embeddings, test_image, detector):
         print("-" * len(header))
 
         for threshold in thresholds:
-            prediction = predict_identity(distances, threshold)
+            prediction = face_recognition.predict_identity(distances, threshold)
 
             print(f"{threshold:<10.1f}| "
                   + " | ".join(f"{distances[name]:<7.3f}" for name in PEOPLE)
@@ -209,7 +146,7 @@ def test_scale(model, reference_embeddings, detector):
     veranderen wanneer het gecropte gezicht kleiner of groter wordt gemaakt.
     """
 
-    image_bgr = get_embeddings_facenet.create_input(TEST_IMAGE)
+    image_bgr = face_recognition.get_embeddings_facenet.create_input(TEST_IMAGE)
     faces = crop_faces.crop_faces(image_bgr, detector)
 
     if not faces:
@@ -233,23 +170,18 @@ def test_scale(model, reference_embeddings, detector):
         print(header)
         print("-" * len(header))
 
-        # Originele face crop bewaren
-        # original_face_path = os.path.join(scale_output_folder, f"face_{face_index + 1}_original.jpg")
-        # cv2.imwrite(original_face_path, face)
-
         for scale in scales:
             scaled_face = change_scale(face, scale)
-            test_embedding = get_embedding_from_image(scaled_face, model)
+            test_embedding = face_recognition.get_embedding_from_image(scaled_face, model)
             distances = {
-                name: calculate_distance(test_embedding, reference_embeddings[name])
+                name: face_recognition.calculate_distance(test_embedding, reference_embeddings[name])
                 for name in PEOPLE
             }
 
             output_image_path = os.path.join(scale_output_folder,
                                              f"face_{face_index + 1}_scale_{scale:.2f}.jpg")
-            # cv2.imwrite(output_image_path, scaled_face)
 
-            prediction = predict_identity(distances, THRESHOLD)
+            prediction = face_recognition.predict_identity(distances, THRESHOLD)
             print(f"{scale:<7.2f}| {THRESHOLD:<10.1f}| "
                     + " | ".join(f"{distances[name]:<7.3f}" for name in PEOPLE)
                     + f" | {prediction.capitalize()}")
@@ -289,7 +221,7 @@ def test_dataset(model, reference_embeddings, detector, people_to_test):
         print(f"\nTesting {true_label}: {len(image_paths)} images")
 
         for image_path in sorted(image_paths):
-            image_bgr = get_embeddings_facenet.create_input(image_path)
+            image_bgr = face_recognition.get_embeddings_facenet.create_input(image_path)
 
             if image_bgr is None:
                 print(f"Could not read: {image_path}")
@@ -301,12 +233,12 @@ def test_dataset(model, reference_embeddings, detector, people_to_test):
                 continue
 
             for face_index, face in enumerate(faces):
-                test_embedding = get_embedding_from_image(face, model)
+                test_embedding = face_recognition.get_embedding_from_image(face, model)
                 distances = {
-                    name: calculate_distance(test_embedding, reference_embeddings[name])
+                    name: face_recognition.calculate_distance(test_embedding, reference_embeddings[name])
                     for name in PEOPLE
                 }
-                prediction = predict_identity(distances, THRESHOLD)
+                prediction = face_recognition.predict_identity(distances, THRESHOLD)
                 results.append(
                     [os.path.basename(image_path), face_index + 1, true_label, round(THRESHOLD, 1)]
                     + [distances[name] for name in PEOPLE]
@@ -415,7 +347,7 @@ def test_angle(model, reference_embeddings, detector, people_to_test):
     results = []
     for image_path, true_label in sorted(image_paths):
         image_name = os.path.splitext(os.path.basename(image_path))[0]
-        image_bgr = get_embeddings_facenet.create_input(image_path)
+        image_bgr = face_recognition.get_embeddings_facenet.create_input(image_path)
         faces = crop_faces.crop_faces(image_bgr, detector)
 
         if not faces:
@@ -438,14 +370,14 @@ def test_angle(model, reference_embeddings, detector, people_to_test):
                 print("hoi")
                 for angle in angles:
                     angled_face = change_angle(face, angle_type, angle)
-                    test_embedding = get_embedding_from_image(angled_face, model)
+                    test_embedding = face_recognition.get_embedding_from_image(angled_face, model)
 
                     distances = {
-                        name: calculate_distance(test_embedding, reference_embeddings[name])
+                        name: face_recognition.calculate_distance(test_embedding, reference_embeddings[name])
                         for name in PEOPLE
                     }
 
-                    prediction = predict_identity(distances, ANGLE_THRESHOLD)
+                    prediction = face_recognition.predict_identity(distances, ANGLE_THRESHOLD)
                     print(f"{angle_type:<7}| {angle:<7}| "
                         + " | ".join(f"{distances[name]:<7.3f}" for name in PEOPLE)
                         + f" | {prediction.capitalize()}")
@@ -466,17 +398,17 @@ def main():
     print("Loading FaceNet model...")
 
     model = InceptionResnetV1(pretrained="vggface2").eval()
-    reference_embeddings = load_reference_embeddings()
+    reference_embeddings = face_recognition.load_reference_embeddings()
     print(f"Reference embeddings loaded: {len(reference_embeddings)}")
     print("Reference embedding loaded.")
 
     with crop_faces.FaceDetection(model_selection=1, min_detection_confidence=0.5
         ) as detector:
-        # test_image = get_embeddings_facenet.create_input(TEST_IMAGE)
-        # test_thresholds(model, reference_embeddings, test_image, detector)
+        test_image = face_recognition.get_embeddings_facenet.create_input(TEST_IMAGE)
+        test_thresholds(model, reference_embeddings, test_image, detector)
         # test_dataset(model, reference_embeddings, detector, ["mike"])
         # test_scale(model,reference_embeddings, detector)
-        test_angle(model, reference_embeddings, detector, ["mike"])
+        # test_angle(model, reference_embeddings, detector, ["mike"])
 
 
 if __name__ == "__main__":

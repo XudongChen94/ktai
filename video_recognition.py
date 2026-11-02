@@ -3,7 +3,7 @@ import numpy as np
 from facenet_pytorch import InceptionResnetV1
 import pandas as pd
 import crop_faces
-import check_e_distance
+import face_recognition
 
 import get_embeddings_facenet
 from facenet_pytorch import InceptionResnetV1
@@ -25,7 +25,7 @@ frame_number = 0
 detector = crop_faces.FaceDetection(model_selection=1, min_detection_confidence=0.5)
 
 # Load embeddings from training data
-references = check_e_distance.load_embeddings()
+references = face_recognition.load_reference_embeddings()
 
 while True:
     success, frame = video.read()
@@ -41,7 +41,7 @@ while True:
         for face_index, face in enumerate(faces):
             embedding = get_embeddings_facenet.get_embedding(face, model)
             closest_per_person = {}
-            for person in check_e_distance.PEOPLE:
+            for person in face_recognition.PEOPLE:
                 distances = np.linalg.norm(references[person] - embedding, axis=1)
                 closest_per_person[person] = distances.min()
 

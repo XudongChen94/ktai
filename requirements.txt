@@ -5,4 +5,3 @@ opencv-contrib-python==4.11.0.86
 
 facenet-pytorch
 pandas
-pandas
