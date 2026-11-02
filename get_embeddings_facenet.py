@@ -6,13 +6,24 @@ import torch
 import model_utils
 from facenet_pytorch import InceptionResnetV1
 
-PERSON = "dustin"
+PERSON = "dustin" # dustin, elf, mike
+SPLIT = "train" # train of test
 
-INPUT_FOLDER = f"frames/faces/{PERSON}/train"
-OUTPUT_FOLDER = f"embeddings/facenet/{PERSON}_facenet.npy"
-NAMES_TXT = f"embeddings/facenet/{PERSON}_facenet_namen.txt"
+SUFFIX = "" if SPLIT == "train" else f"_{SPLIT}"
+
+INPUT_FOLDER = f"frames/faces/{PERSON}/{SPLIT}"
+OUTPUT_FOLDER = f"embeddings/facenet/{PERSON}_facenet{SUFFIX}.npy"
+NAMES_TXT = f"embeddings/facenet/{PERSON}_facenet{SUFFIX}_namen.txt"
 INPUT_SIZE = 160  # FaceNet wil 160 x 160 pixels
 
+def create_input(image_path):
+    """Leest een pad en geeft een afbeelding terug."""
+    image_bgr = cv2.imread(image_path)
+    
+    if image_bgr is None:
+        raise FileNotFoundError(f"Could not read image: {image_path}")
+   
+    return image_bgr
 
 def create_input_from_image(image_bgr):
     """Maakt van een ingelezen OpenCV-afbeelding een tensor voor FaceNet."""

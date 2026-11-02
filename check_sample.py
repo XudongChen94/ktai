@@ -9,6 +9,8 @@ import crop_faces
 SAMPLE_SIZE = 30
 table = pd.read_csv("results/facenet/video_results.csv")
 samples = []
+VIDEO_PATH = "video/compilation_final_uniform.mp4"
+OUTPUT_FOLDER = "results/facenet/check"
 
 # groepeer de data per persoon uit de kolom perons en loop erdoor. [dustin, mike, elf, unkown]
 for person_name, person_group in table.groupby(table["person"]):
@@ -23,8 +25,7 @@ print(samples_table["person"].value_counts())
 
 # Extraheer de gezichten uit de video
 frames_needed = set(samples_table["frame"].astype(int))
-VIDEO_PATH = "video/dustin_elf_merged_720.mov"
-OUTPUT_FOLDER = "results/facenet/check"
+
 
 video = cv2.VideoCapture(VIDEO_PATH)
 detector = crop_faces.FaceDetection(model_selection=1, min_detection_confidence=0.5)

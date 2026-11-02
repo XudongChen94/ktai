@@ -8,9 +8,8 @@ import model_utils
 import get_embeddings_facenet
 from facenet_pytorch import InceptionResnetV1
 
-model = InceptionResnetV1(pretrained="vggface2").eval()   # één keer, bovenaan
-
-VIDEO_PATH = "video/dustin_elf_merged_720.mov"
+model = InceptionResnetV1(pretrained="vggface2").eval()
+VIDEO_PATH = "video/compilation_final_uniform.mp4"
 SAMPLES_PER_SECOND = 2
 THRESHOLD = 0.9
 results = []
@@ -25,7 +24,7 @@ frame_number = 0
 detector = crop_faces.FaceDetection(model_selection=1, min_detection_confidence=0.5)
 
 # Load embeddings from training data
-references = model_utils.load_reference_embeddings()
+references = model_utils.load_all_embeddings()
 
 while True:
     success, frame = video.read()

@@ -17,6 +17,12 @@ def create_input(image_path):
    
     return image_bgr
 
+def load_all_embeddings():
+    """Returns a dict: person -> array with shape (number_of_faces, 512)."""
+    embeddings = {}
+    for person in PEOPLE:
+        embeddings[person] = np.load(f"{EMBEDDINGS_FOLDER}/{person}_facenet.npy")
+    return embeddings
 
 def load_reference_embeddings():
     """
@@ -40,14 +46,12 @@ def load_reference_embeddings():
 
     return reference_embeddings
 
-
 def calculate_distance(embedding_1, embedding_2):
     """
     Berekent de genormaliseerde Euclidische afstand tussen twee embeddings.
     """
 
     return np.linalg.norm(embedding_1 - embedding_2)
-
 
 def predict_identity(distances, threshold):
     """
