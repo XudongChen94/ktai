@@ -3,6 +3,7 @@ import os
 import cv2
 import numpy as np
 import torch
+import model_utils
 from facenet_pytorch import InceptionResnetV1
 
 PERSON = "dustin"
@@ -12,15 +13,6 @@ OUTPUT_FOLDER = f"embeddings/facenet/{PERSON}_facenet.npy"
 NAMES_TXT = f"embeddings/facenet/{PERSON}_facenet_namen.txt"
 INPUT_SIZE = 160  # FaceNet wil 160 x 160 pixels
 
-
-def create_input(image_path):
-    """Leest een pad en geeft een afbeelding terug."""
-    image_bgr = cv2.imread(image_path)
-    
-    if image_bgr is None:
-        raise FileNotFoundError(f"Could not read image: {image_path}")
-   
-    return image_bgr
 
 def create_input_from_image(image_bgr):
     """Maakt van een ingelezen OpenCV-afbeelding een tensor voor FaceNet."""
@@ -54,7 +46,7 @@ def main():
     file_names = []
 
     for image_path in image_paths:
-        image_bgr = create_input(image_path)
+        image_bgr = model_utils.create_input(image_path)
         embedding = get_embedding(image_bgr, model)
         embeddings.append(embedding)
         file_names.append(os.path.basename(image_path))

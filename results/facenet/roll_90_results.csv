@@ -1,0 +1,19 @@
+image,face,true_label,threshold,dustin,elf,mike,prediction
+stills_dustin_stranger_things_002.jpg,1,dustin,0.9,1.0928473,1.3198079,1.0863305,Unknown
+stills_dustin_stranger_things_006.jpg,1,dustin,0.9,1.2769624,1.3633581,1.2991487,Unknown
+stills_dustin_stranger_things_009.jpg,1,dustin,0.9,1.0500808,1.472821,1.3057401,Unknown
+stills_dustin_stranger_things_017.jpg,1,dustin,0.9,1.2567476,1.2640506,1.2761284,Unknown
+stills_dustin_stranger_things_029.jpg,1,dustin,0.9,1.2666126,1.3366828,1.1631625,Unknown
+belichting 3.png,1,elf,0.9,1.4169868,1.467362,1.1851606,Unknown
+belichting 7.png,1,elf,0.9,1.5086144,1.2687657,1.3519971,Unknown
+expressie 1.png,1,elf,0.9,1.4402215,1.3789513,1.1879293,Unknown
+expressie 14.png,1,elf,0.9,1.4632082,1.3460236,1.3487818,Unknown
+expressie 15.png,1,elf,0.9,1.2818879,1.1445894,1.334115,Unknown
+expressie 19.png,1,elf,0.9,1.2783103,1.3530571,1.0817536,Unknown
+levensloop 4.png,1,elf,0.9,1.2341269,1.3411744,1.1633095,Unknown
+levensloop 7.png,1,elf,0.9,1.36543,1.181776,1.1230124,Unknown
+mike (1).jpeg,1,mike,0.9,1.387213,1.2202536,1.1339892,Unknown
+mike (11).jpeg,1,mike,0.9,1.5486436,1.5373664,1.4378194,Unknown
+mike (5).jpeg,1,mike,0.9,1.4663353,1.4719591,1.4454478,Unknown
+mike (8).jpeg,1,mike,0.9,1.3990698,1.3422151,1.2288522,Unknown
+mike (9).jpeg,1,mike,0.9,1.3266671,1.4385955,1.212119,Unknown
