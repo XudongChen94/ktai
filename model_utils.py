@@ -55,15 +55,22 @@ def calculate_distance(embedding_1, embedding_2):
 
 def predict_identity(distances, threshold):
     """
-    Geeft de naam terug als precies één persoon onder de threshold zit,
-    anders "Unknown".
+    Geeft de persoon met de kleinste afstand terug.
+    Is die afstand groter dan de drempel, dan "Unknown".
     """
-    matches = [name for name, distance in distances.items() if distance < threshold]
+    # matches = [name for name, distance in distances.items() if distance < threshold]
 
-    if len(matches) == 1:
-        return matches[0]
+    # if len(matches) == 1:
+    #     return matches[0]
 
-    return "Unknown"
+    best_person = min(distances, key=distances.get)
+    best_distance = distances[best_person]
+
+    if best_distance > threshold:
+        return "Unknown"
+
+    # return "Unknown"
+    return best_person
 
 def save_results(file_name, headers, rows):
     """
@@ -80,3 +87,7 @@ def save_results(file_name, headers, rows):
         writer.writerows(rows)
 
     print(f"Results saved to: {output_path}")
+
+
+print(predict_identity({"dustin": 0.7, "elf": 1.2, "mike": 1.1}, 0.9))   # dustin
+print(predict_identity({"dustin": 0.7, "elf": 1.2, "mike": 1.1}, 0.5))   # Unknown
