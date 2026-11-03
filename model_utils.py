@@ -87,7 +87,3 @@ def save_results(file_name, headers, rows):
         writer.writerows(rows)
 
     print(f"Results saved to: {output_path}")
-
-
-print(predict_identity({"dustin": 0.7, "elf": 1.2, "mike": 1.1}, 0.9))   # dustin
-print(predict_identity({"dustin": 0.7, "elf": 1.2, "mike": 1.1}, 0.5))   # Unknown
