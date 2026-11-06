@@ -7,7 +7,7 @@ import model_utils
 from facenet_pytorch import InceptionResnetV1
 
 PERSON = "dustin" # dustin, elf, mike
-SPLIT = "train" # train of test
+SPLIT = "test" # train of test
 
 SUFFIX = "" if SPLIT == "train" else f"_{SPLIT}"
 

@@ -4,9 +4,11 @@ import mediapipe as mp
 import cv2
 
 FaceDetection = mp.solutions.face_detection.FaceDetection
+PERSON = "dustin"
+SPLIT = "test"
 
-input_folder = "dataset/test/mike"
-output_folder = "frames/faces/mike/train"
+input_folder = f"dataset/{SPLIT}/{PERSON}"
+output_folder = f"frames/faces/{PERSON}/{SPLIT}"
 
 margin = 0.2
 
@@ -76,12 +78,19 @@ def main():
                 os.path.basename(img)
             )[0]
 
-            image_height, image_width = image.shape[:2]
+            if image is None:
+                print("Could not read: " + image_name)
+                continue
+
             cropped_faces = crop_faces(image, detector)
 
             if not cropped_faces:
-                print("Could not find a face in: " + image_name)
-                continue
+                if min(image.shape[:2]) < 200:  # onder welke grootte neem je aan dat het al een crop is?
+                    cropped_faces = [image]  # gebruik het hele plaatje
+                    print("Already a crop, used as is: " + image_name)
+                else:
+                    print("Could not find a face in: " + image_name)
+                    continue
 
             for index, crop_face in enumerate(cropped_faces):
                 cv2.imwrite(
