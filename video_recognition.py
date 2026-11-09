@@ -25,6 +25,7 @@ detector = crop_faces.FaceDetection(model_selection=1, min_detection_confidence=
 
 # Load embeddings from training data
 references = model_utils.load_all_embeddings()
+sampled_frames = 0
 
 while True:
     success, frame = video.read()
@@ -32,6 +33,7 @@ while True:
         break
 
     if frame_number % frame_step == 0:
+        sampled_frames += 1
         time_in_seconds = frame_number / frames_per_second
         faces = crop_faces.crop_faces(frame, detector)
         print(round(time_in_seconds, 1), "seconden:", len(faces),
@@ -50,13 +52,20 @@ while True:
                 best_person = "unknown"
             results.append(
                 [frame_number, round(time_in_seconds, 2), face_index,
-                 best_person, round(best_distance, 3)])
+                 best_person, round(best_distance, 3)]
+                + [round(closest_per_person[person], 3) for person in
+                   model_utils.PEOPLE])
     frame_number += 1
+
+print("duur (s):", frame_number / frames_per_second)     # na de lus, vóór video.release()
+print("gesamplede frames:", sampled_frames)
+print("gedetecteerde gezichten:", len(results))
 
 video.release()
 detector.close()
 
 
-table = pd.DataFrame(results, columns=["frame", "time", "face", "person", "distance"])
+table = pd.DataFrame(results, columns=["frame", "time", "face", "person", "distance"]
+                     + [f"distance_{person}" for person in model_utils.PEOPLE])
 table.to_csv("results/facenet/video_results.csv", index=False)
 print(table["person"].value_counts())

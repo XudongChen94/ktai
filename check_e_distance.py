@@ -1,7 +1,8 @@
 import numpy as np
 import pandas as pd
 
-TEST_PERSON = "dustin"
+METHOD = "1nn"   # "1nn" of "centroid"
+TEST_PERSON = "mike"
 PEOPLE = ["dustin", "elf", "mike"]
 EMBEDDINGS_FOLDER = "embeddings/facenet"
 THRESHOLD = 0.9

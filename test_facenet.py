@@ -6,7 +6,7 @@ import model_utils
 import crop_faces
 import get_embeddings_facenet
 from facenet_pytorch import InceptionResnetV1
-
+METHOD = "centroid"   # "centroid" of "1nn"
 PEOPLE = ["dustin", "elf", "mike"]
 TEST_DATASET_FOLDER = "dataset/test"
 IMAGE_EXTENSIONS = ("*.jpg", "*.jpeg", "*.png")
@@ -153,6 +153,17 @@ def create_all_test_datasets():
             create_transformed_dataset(angle_type,angle)
 
 
+def distance_to_person(test_embedding, reference):
+    """
+    centroid: reference is één vector (512,)
+    1nn:      reference is een array (30, 512)
+    """
+    if METHOD == "centroid":
+        return model_utils.calculate_distance(test_embedding, reference)
+    else: # 1NN
+        return np.linalg.norm(test_embedding - reference, axis=1).min()
+
+
 def test_dataset(model, reference_embeddings, detector,
                  people_to_test, test_dataset_folder, result_file):
     
@@ -181,10 +192,8 @@ def test_dataset(model, reference_embeddings, detector,
             for face_index, face in enumerate(faces, start=1):
                 test_embedding = (get_embeddings_facenet.get_embedding(face, model))
                 distances = {
-                    person: model_utils.calculate_distance(
-                        test_embedding,
-                        reference_embeddings[person]
-                    )for person in PEOPLE}
+                    person: distance_to_person(test_embedding, reference_embeddings[person])
+                    for person in PEOPLE}
 
                 prediction = model_utils.predict_identity(distances, THRESHOLD)
 
@@ -194,14 +203,18 @@ def test_dataset(model, reference_embeddings, detector,
                     + [prediction]
                 )
 
-    model_utils.save_results(result_file,["image", "face", "true_label", "threshold"]
+    model_utils.save_results(f"{METHOD}_{result_file}",
+                             ["image", "face", "true_label", "threshold"]
                              + PEOPLE + ["prediction"], results)
 
 if __name__ == "__main__":
     create_all_test_datasets()
     detector = crop_faces.FaceDetection(model_selection=1, min_detection_confidence=0.5)
     model = InceptionResnetV1(pretrained="vggface2").eval()
-    reference_embeddings = model_utils.load_reference_embeddings()
+    if METHOD == "centroid":
+        reference_embeddings = model_utils.load_reference_embeddings()
+    else: # 1NN
+        reference_embeddings = model_utils.load_all_embeddings()
     test_dataset(model, reference_embeddings, detector,
                 PEOPLE, "dataset/test_roll_-90", "roll_-90_results.csv")
     
