@@ -10,12 +10,12 @@ from facenet_pytorch import InceptionResnetV1
 PEOPLE = ["dustin", "elf", "mike"]
 TEST_DATASET_FOLDER = "dataset/test"
 IMAGE_EXTENSIONS = ("*.jpg", "*.jpeg", "*.png")
-SCALES = [0.50, 1.00, 1.50]
+SCALES = [0.50, 1.50]
 TRANSFORMATIONS = ["roll", "yaw", "pitch"]
 ANGLES = {
-    "roll": [-90, 0, 90],
-    "yaw": [-40, 0, 40],
-    "pitch": [-40, 0, 40],
+    "roll": [-90, 90],
+    "yaw": [-40, 40],
+    "pitch": [-40, 40],
 }
 THRESHOLD = 0.9
 
@@ -203,10 +203,10 @@ if __name__ == "__main__":
     model = InceptionResnetV1(pretrained="vggface2").eval()
     reference_embeddings = model_utils.load_reference_embeddings()
     test_dataset(model, reference_embeddings, detector,
-                PEOPLE, "dataset/test_roll_-90", "roll_-90_results.csv")
+                PEOPLE, "dataset/test", "normal_test_results.csv")
     
     test_dataset(model, reference_embeddings, detector,
-                PEOPLE, "dataset/test_roll_0", "roll_0_results.csv")
+                PEOPLE, "dataset/test_roll_-90", "roll_-90_results.csv")
 
     test_dataset(model, reference_embeddings, detector,
                 PEOPLE, "dataset/test_roll_90", "roll_90_results.csv")
@@ -215,16 +215,10 @@ if __name__ == "__main__":
                 PEOPLE, "dataset/test_yaw_-40", "yaw_-40_results.csv")
 
     test_dataset(model, reference_embeddings, detector,
-                PEOPLE, "dataset/test_yaw_0", "yaw_0_results.csv")
-
-    test_dataset(model, reference_embeddings, detector,
                 PEOPLE, "dataset/test_yaw_40", "yaw_40_results.csv")
 
     test_dataset(model, reference_embeddings, detector,
                 PEOPLE, "dataset/test_pitch_-40", "pitch_-40_results.csv")
-
-    test_dataset(model, reference_embeddings, detector,
-                PEOPLE, "dataset/test_pitch_0", "pitch_0_results.csv")
 
     test_dataset(model, reference_embeddings, detector,
                 PEOPLE, "dataset/test_pitch_40", "pitch_40_results.csv")
@@ -234,9 +228,6 @@ if __name__ == "__main__":
     
     test_dataset(model, reference_embeddings, detector,
                 PEOPLE,"dataset/test_scale_0.5","test_scale_0.5_results.csv")
-    
-    test_dataset(model, reference_embeddings, detector,
-                PEOPLE,"dataset/test_scale_1.0","test_scale_1.0_results.csv")
-    
+
     test_dataset(model, reference_embeddings, detector,
                 PEOPLE,"dataset/test_scale_1.5","test_scale_1.5_results.csv")

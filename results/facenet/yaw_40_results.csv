@@ -1,0 +1,51 @@
+image,face,true_label,threshold,dustin,elf,mike,prediction
+stills_dustin_stranger_things_001.jpg,1,dustin,0.9,0.57874876,1.4883273,1.3785574,dustin
+stills_dustin_stranger_things_002.jpg,1,dustin,0.9,0.8935979,1.4631369,1.1729891,dustin
+stills_dustin_stranger_things_004.jpg,1,dustin,0.9,0.75763583,1.5167733,1.3320556,dustin
+stills_dustin_stranger_things_006b.jpg,1,dustin,0.9,0.60611033,1.5422285,1.4412538,dustin
+stills_dustin_stranger_things_007.jpg,1,dustin,0.9,0.66097903,1.4966486,1.3285608,dustin
+stills_dustin_stranger_things_010.jpg,1,dustin,0.9,0.66365147,1.4781044,1.4385769,dustin
+stills_dustin_stranger_things_011.jpg,1,dustin,0.9,0.81049865,1.4881744,1.4051658,dustin
+stills_dustin_stranger_things_012.jpg,1,dustin,0.9,1.3588456,1.4092125,1.1302723,Unknown
+stills_dustin_stranger_things_013.jpg,1,dustin,0.9,1.2516881,1.4303589,1.1181152,Unknown
+stills_dustin_stranger_things_015.jpg,1,dustin,0.9,0.61990744,1.5091219,1.3308314,dustin
+stills_dustin_stranger_things_016.jpg,1,dustin,0.9,0.83725053,1.5709425,1.3801547,dustin
+stills_dustin_stranger_things_017.jpg,1,dustin,0.9,0.7326209,1.4542198,1.4282408,dustin
+stills_dustin_stranger_things_020.jpg,1,dustin,0.9,1.1701505,1.3410295,1.1234996,Unknown
+stills_dustin_stranger_things_020.jpg,2,dustin,0.9,0.5794879,1.502049,1.5164502,dustin
+stills_dustin_stranger_things_023.jpg,1,dustin,0.9,1.2602648,1.4350036,1.2540673,Unknown
+stills_dustin_stranger_things_029.jpg,1,dustin,0.9,0.6488167,1.4926283,1.4292821,dustin
+stills_dustin_stranger_things_030.jpg,1,dustin,0.9,0.67379194,1.3926629,1.3963788,dustin
+afstand camera en expressie.png,1,elf,0.9,1.5683272,0.80374277,1.3701459,elf
+afstand v camera 3.png,1,elf,0.9,1.600699,0.59150493,1.2975377,elf
+belichting + uitdrukking.png,1,elf,0.9,1.5476049,0.81390715,1.2937866,elf
+belichting 4.png,1,elf,0.9,1.3631232,1.0906985,1.4224805,Unknown
+belichting 6.png,1,elf,0.9,1.4664416,0.56140655,1.2588766,elf
+belichting 8.png,1,elf,0.9,1.4511511,0.82104164,1.2428827,elf
+expressie 1.png,1,elf,0.9,1.4237177,0.850992,1.2893559,elf
+expressie 11.png,1,elf,0.9,1.622612,0.47844794,1.2561836,elf
+expressie 13.png,1,elf,0.9,1.522356,0.7186033,1.3348982,elf
+expressie 15.png,1,elf,0.9,1.362231,0.7591936,1.3383862,elf
+expressie 19.png,1,elf,0.9,1.6012739,0.9804433,1.5221518,Unknown
+expressie 23.png,1,elf,0.9,1.4201195,0.8542977,1.3895117,elf
+expressie 4.png,1,elf,0.9,1.5656309,0.5689349,1.3024864,elf
+expressie 5.png,1,elf,0.9,1.4500905,0.7430464,1.2564852,elf
+levensloop 1.png,1,elf,0.9,1.6673636,0.7243601,1.4372137,elf
+levensloop 3.png,1,elf,0.9,1.4895996,0.64814895,1.271277,elf
+levensloop 5.png,1,elf,0.9,1.6024079,0.8473753,1.3008428,elf
+mike (12).jpeg,1,mike,0.9,1.3682144,1.5069708,0.7047338,mike
+mike (14).jpeg,1,mike,0.9,1.1346364,1.3486888,0.64839554,mike
+mike (21).jpeg,1,mike,0.9,1.3275436,1.2697203,0.73777926,mike
+mike (26).jpeg,1,mike,0.9,1.4094306,1.3423973,0.67677504,mike
+mike (3).jpeg,1,mike,0.9,1.3463356,1.3556128,1.1276971,Unknown
+mike (37).jpeg,1,mike,0.9,1.3555291,1.4054891,0.8399684,mike
+mike (4).jpeg,1,mike,0.9,1.4147778,1.2595185,0.6272051,mike
+mike (5).jpeg,1,mike,0.9,1.3823845,1.4931802,0.94126016,Unknown
+mike (50).png,1,mike,0.9,1.4058783,1.2544028,0.8298844,mike
+mike (51).png,1,mike,0.9,1.4344423,1.4799416,0.634574,mike
+mike (52).png,1,mike,0.9,1.3110695,1.377085,0.6320721,mike
+mike (53).png,1,mike,0.9,1.3693109,1.3939604,0.5991018,mike
+mike (54).png,1,mike,0.9,1.362514,1.380724,0.56771576,mike
+mike (55).png,1,mike,0.9,1.4239393,1.356682,0.57877946,mike
+mike (7).jpeg,1,mike,0.9,1.3806317,1.4138962,0.66800874,mike
+mike (9).jpeg,1,mike,0.9,1.2430981,1.3656298,0.8652314,mike

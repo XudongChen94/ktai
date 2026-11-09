@@ -53,15 +53,12 @@ def calculate_distance(embedding_1, embedding_2):
 
     return np.linalg.norm(embedding_1 - embedding_2)
 
+
 def predict_identity(distances, threshold):
     """
     Geeft de persoon met de kleinste afstand terug.
     Is die afstand groter dan de drempel, dan "Unknown".
     """
-    # matches = [name for name, distance in distances.items() if distance < threshold]
-
-    # if len(matches) == 1:
-    #     return matches[0]
 
     best_person = min(distances, key=distances.get)
     best_distance = distances[best_person]
@@ -69,8 +66,8 @@ def predict_identity(distances, threshold):
     if best_distance > threshold:
         return "Unknown"
 
-    # return "Unknown"
     return best_person
+
 
 def save_results(file_name, headers, rows):
     """
