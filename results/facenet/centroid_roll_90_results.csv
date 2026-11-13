@@ -1,0 +1,12 @@
+image,face,true_label,threshold,dustin,elf,mike,prediction
+stills_dustin_stranger_things_002.jpg,1,dustin,0.9,1.1177406,1.3281244,1.0973163,Unknown
+stills_dustin_stranger_things_009.jpg,1,dustin,0.9,1.0643061,1.48303,1.3041651,Unknown
+stills_dustin_stranger_things_017.jpg,1,dustin,0.9,1.2873611,1.2622206,1.276773,Unknown
+stills_dustin_stranger_things_029.jpg,1,dustin,0.9,1.2828084,1.3399594,1.2013102,Unknown
+expressie 1.png,1,elf,0.9,1.451186,1.3852668,1.1871192,Unknown
+expressie 15.png,1,elf,0.9,1.2834154,1.1481336,1.3219234,Unknown
+expressie 19.png,1,elf,0.9,1.3031303,1.3676766,1.1093582,Unknown
+mike (26).jpeg,1,mike,0.9,1.3298303,1.3591446,0.98079026,Unknown
+mike (4).jpeg,1,mike,0.9,1.2923523,1.3750983,1.0591056,Unknown
+mike (52).png,1,mike,0.9,1.254682,1.3729392,1.0932463,Unknown
+mike (55).png,1,mike,0.9,1.223894,1.3347523,1.1248642,Unknown

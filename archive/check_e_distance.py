@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
 
-TEST_PERSON = "dustin"
+METHOD = "1nn"   # "1nn" of "centroid"
+TEST_PERSON = "mike"
 PEOPLE = ["dustin", "elf", "mike"]
 EMBEDDINGS_FOLDER = "embeddings/facenet"
-
+THRESHOLD = 0.9
 
 def load_embeddings():
     """Returns a dict: person -> array with shape (number_of_faces, 512)."""
@@ -67,10 +68,17 @@ def main():
     print(correct.sum(), "van", len(correct))
 
     photo_names = open(
-        f"{EMBEDDINGS_FOLDER}/{TEST_PERSON}_facenet_test_names.txt").read().splitlines()
+        f"{EMBEDDINGS_FOLDER}/{TEST_PERSON}_facenet_test_namen.txt").read().splitlines()
 
     table = pd.DataFrame(all_distances.T, columns=PEOPLE, index=photo_names)
     table["predicted"] = [PEOPLE[i] for i in predicted_index]
+
+
+    smallest = all_distances.min(axis=0)  # kleinste afstand per foto
+    table["with_threshold"] = [
+        "unknown" if distance > THRESHOLD else person
+        for person, distance in zip(table["predicted"], smallest)
+    ]
     print(table.round(2))
     table.round(2).to_csv(f"results/facenet/{TEST_PERSON}_test_predictions.csv")
 

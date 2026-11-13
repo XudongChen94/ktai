@@ -2,7 +2,7 @@ import csv
 import os
 
 CHECK_FOLDER = "results/facenet/check"
-OUTPUT_FILE = "results/facenet/check_labels.csv"
+OUTPUT_FILE = "archive/check_labels.csv"
 PREDICTED_GROUPS = ["dustin", "elf", "mike", "unknown"]
 
 # Stills die afwijken

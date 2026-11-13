@@ -11,11 +11,11 @@ def load_reference_embeddings():
     Load data from the embeddings into dict
     """
     reference_embeddings = {}
-    for x in os.listdir("embeddings/facenet"):
+    for x in os.listdir("../embeddings/facenet"):
         if x.endswith(".npy"):
             identity = x.split("_")[0] #take name out of the filename
             print(identity)
-            x_path = os.path.join("embeddings/facenet", x)
+            x_path = os.path.join("../embeddings/facenet", x)
             reference_embeddings[identity] = np.load(x_path)
 
             print(identity, reference_embeddings[identity].shape)

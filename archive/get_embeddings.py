@@ -10,8 +10,8 @@ ImageEmbedder = mp.tasks.vision.ImageEmbedder
 ImageEmbedderOptions = mp.tasks.vision.ImageEmbedderOptions
 VisionRunningMode = mp.tasks.vision.RunningMode
 
-detector_model_path = '../models/blaze_face_short_range.tflite'
-embedder_model_path = '../models/mobilenet_v3_small.tflite'
+detector_model_path = 'models/blaze_face_short_range.tflite'
+embedder_model_path = 'models/mobilenet_v3_small.tflite'
 TRAIN_DIR = '../dataset/train'
 EMBEDDING_DIR = '../embeddings'
 

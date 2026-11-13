@@ -1,9 +1,4 @@
-"""Stap 2: haal elke X seconden een plaatje (frame) uit een video.
 
-Gebruik:
-    python extract_frames.py videos/mijn_video.mp4
-    python extract_frames.py videos/mijn_video.mp4 --interval 0.5
-"""
 import argparse
 import os
 

@@ -6,7 +6,7 @@ import model_utils
 import crop_faces
 import get_embeddings_facenet
 from facenet_pytorch import InceptionResnetV1
-METHOD = "centroid"   # "centroid" of "1nn"
+METHOD = "1nn"   # "centroid" of "1nn"
 PEOPLE = ["dustin", "elf", "mike"]
 TEST_DATASET_FOLDER = "dataset/test"
 IMAGE_EXTENSIONS = ("*.jpg", "*.jpeg", "*.png")
@@ -18,6 +18,7 @@ ANGLES = {
     "pitch": [-40, 40],
 }
 THRESHOLD = 0.9
+
 
 
 """

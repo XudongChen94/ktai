@@ -1,0 +1,11 @@
+image,face,true_label,threshold,dustin,elf,mike,prediction
+stills_dustin_stranger_things_013.jpg,1,dustin,0.9,1.4308128,1.4239006,1.1875674,Unknown
+stills_dustin_stranger_things_029.jpg,1,dustin,0.9,1.3348475,1.2693315,1.2825673,Unknown
+afstand v camera 3.png,1,elf,0.9,1.3510187,1.2850785,1.2319131,Unknown
+expressie 1.png,1,elf,0.9,1.3458169,1.4655212,1.3470663,Unknown
+expressie 13.png,1,elf,0.9,1.4449098,1.0662354,1.2860618,Unknown
+expressie 15.png,1,elf,0.9,1.4633294,1.3866384,1.2800373,Unknown
+expressie 19.png,1,elf,0.9,1.3706439,1.2261983,1.2154119,Unknown
+expressie 4.png,1,elf,0.9,1.5162619,1.4118627,1.2926759,Unknown
+mike (54).png,1,mike,0.9,1.436852,1.1412469,1.0776396,Unknown
+mike (55).png,1,mike,0.9,1.2613839,1.3911904,1.20819,Unknown

@@ -22,10 +22,10 @@ def load_reference_embeddings():
     Load data from the embeddings into dict
     """
     reference_embeddings = {}
-    for x in os.listdir("embeddings"):
+    for x in os.listdir("../embeddings"):
         if x.endswith(".npy"):
             identity = x[:-4] #take name out of the filename
-            x_path = os.path.join("embeddings", x)
+            x_path = os.path.join("../embeddings", x)
             reference_embeddings[identity] = np.load(x_path)
 
             #print(identity, reference_embeddings[identity].shape)

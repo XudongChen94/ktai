@@ -12,6 +12,7 @@ model = InceptionResnetV1(pretrained="vggface2").eval()
 VIDEO_PATH = "video/compilation_final_uniform.mp4"
 SAMPLES_PER_SECOND = 2
 THRESHOLD = 0.9
+METHOD = "1nn"   # "centroid" of "1nn"
 results = []
 
 video = cv2.VideoCapture(VIDEO_PATH)
@@ -24,7 +25,10 @@ frame_number = 0
 detector = crop_faces.FaceDetection(model_selection=1, min_detection_confidence=0.5)
 
 # Load embeddings from training data
-references = model_utils.load_all_embeddings()
+if METHOD == "centroid":
+    references = model_utils.load_reference_embeddings()
+else:
+    references = model_utils.load_all_embeddings()
 sampled_frames = 0
 
 while True:
@@ -43,8 +47,11 @@ while True:
             embedding = get_embeddings_facenet.get_embedding(face, model)
             closest_per_person = {}
             for person in model_utils.PEOPLE:
-                distances = np.linalg.norm(references[person] - embedding, axis=1)
-                closest_per_person[person] = distances.min()
+                if METHOD == "centroid":
+                    closest_per_person[person] = np.linalg.norm(embedding - references[person])
+                else:
+                    distances = np.linalg.norm(references[person] - embedding, axis=1)
+                    closest_per_person[person] = distances.min()
 
             best_person = min(closest_per_person,key=closest_per_person.get)
             best_distance = closest_per_person[best_person]
@@ -67,5 +74,5 @@ detector.close()
 
 table = pd.DataFrame(results, columns=["frame", "time", "face", "person", "distance"]
                      + [f"distance_{person}" for person in model_utils.PEOPLE])
-table.to_csv("results/facenet/video_results.csv", index=False)
+table.to_csv(f"results/facenet/video_results_{METHOD}.csv", index=False)
 print(table["person"].value_counts())
